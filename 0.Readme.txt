@@ -1,0 +1,101 @@
+#######################################################################################################################
+########################################## Codes related to the manuscript: ###########################################
+###################### Decoding the state of stress and fluid pathways of Southern Volcanic Zone ######################
+#######################################################################################################################
+
+Authors: Nicolás Pérez-Estay, Javiera Ruz, Pamela Pérez-Flores, Gerd Sielfeld, Tomás Roquer, José Cembrano.
+
+The analysis performed in this paper has been separated in 4 stages.
+
+Step 1: Construction of database of fault slip data and focal mechanisms
+
+Step 2: Calculation of the principal stress direction using MIM-software (freely available at internet).
+
+Step 3: Construction of density distribution of principal stress direction S1 and S3, and the stress ratio (phi)
+
+Step 4: Monte Carlo simulation of dilatational tendency and pore pressure required to trigger tensile fractures
+
+
+################################# Introduction and requirement of folder of "Codes" ####################################
+
+In the folder "Codes" you will find the codes to perform steps 3 and 4. Step 1 does not require any code, and 
+Step 2 was conducted with an external code/software provided by Yamaji et al. 2000 (Multiple Inverse Method, MIM).
+
+The code of steps 3 and 4 are written in Python 3.7.6 and tested on a Windows 10 machine. The codes require the 
+following libraries:
+-mplstereonet (https://pypi.org/project/mplstereonet/)
+-numpy
+-matplotlib
+-scipy
+
+If you are not familiarized with python environment, we suggest the installation of "Anaconda package" at
+(https://www.anaconda.com/products/distribution), and the installation of mplsteroenet by putting 
+"-pip install mplstereonet" in the command window of spyder platform (app installed with Anaconda).
+
+
+############################## Description of the information and code of each folder of "Codes" ######################
+
+The information at each folder:
+
+### :>Codes\Step1_RawData :
+Raw data ready for be processed in the MIM software is attached. In each text file ending with ".fdt" fault slip data or 
+focal mechanisms are write. On these file, each row represents: strike/dip of plane, trend/plunge of rake 
+and the sense of movement. In Short-Term files, focal mechanisms are represented by two rows of the two focal planes.
+
+### :>Codes\Step2_Results_of_MIM :
+The outputs obtained in MIM-software are shared in this supplement to ensure the replicability of results. Each 
+state of stress has a MIM output file.
+
+### :>Codes\Step3_DensityDistribution :
+Here, the main code is "DensityDistribution_of_MIM_StressFields.py", and creates the text files containing the density 
+distribution of principal stress direction S1, S3 and the stress ratio. In this folder, an example 
+"Test_PuyuhuapiLongTerm_outputMIM" is included; however, any MIM-output included in the folder of Step 2 can be used to run 
+this code. Please read setting section of the main code. 
+
+Additionally, "DensityDistributionTools.py" code contains some functions necessary to run the main code (please do not modify 
+these since they are necessary to run the main code).
+
+Finally, the code "Test_probability_distributions.py" is an example of how to read the text file created in the main code 
+and randomly selected the S1 and S3 directions and stress ratio.
+
+Running time of "DensityDistribution_of_MIM_StressFields.py" ~ 16 seconds (Intel i7 6700HQ, 12 GB RAM)
+
+
+### :>Codes\Step4_MonteCarloSimulation :
+The code "Monte_Carlo_DilatationTendecy_and_PorePressure_v11.py" is included with a testing file named
+"Test_PuyuhuapiLongTerm". This code calculate the dilatational tendency and pore pressure required to trigger tensile 
+fracture along each strike/dip ranging between 0° and 360°, and between 0 and 90°, respectively. This calculation is 
+conducted by developing a Monte Carlo approach that resolve the unknown parameters in the equations (differential stress, 
+principal stress spatial orientation, stress ratio, depth and tensile strength). By this modeling, a range of dilatational 
+tendency and pore pressure values are revealed, which are organized in statistical values, as percentiles, median, mean, 
+standard deviation, which are shown in the principal figures of the code:
+
+Figure 1: Dilatational tendency, and
+Figure 2: Pore pressure required to trigger tensile fracture 
+
+To understand how run the code please read the setting section of the code. The most important results of this code are 
+plotted when the variables "plot_dilatational_tendency_results" and "plot_pore_pressure_results" are True. We suggest to 
+use 1000 cases of monte carlo simulation, then n_montecarlo=1000.
+
+*running time of "Monte_Carlo_DilatationTendecy_and_PorePressure_v11.py" for 200 montecarlo cases and default values:
+~ 3 min and 17 seconds.
+*running time of "Monte_Carlo_DilatationTendecy_and_PorePressure_v11.py" for 1000 montecarlo cases and default values: 
+~ 12 min and 5 seconds.
+*running time of "Monte_Carlo_DilatationTendecy_and_PorePressure_v11.py" for 1000 montecarlo cases, default values, and 
+running 10 cases in parallel, each one in a different spyder terminal: 
+~ 31 min and 45 seconds.
+
+*Running test carry out in Windows 10, with a PC with Intel i7 6700HQ, 12 GB RAM.
+
+
+
+
+
+
+
+
+
+
+
+
+
